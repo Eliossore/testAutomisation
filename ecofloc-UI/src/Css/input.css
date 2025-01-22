@@ -1,0 +1,348 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Défilement élégant */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+
+
+#list-buttons{
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+#list-buttons.fixed{
+  height: max-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Flex */
+.list-graph{
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2em;
+  gap: 1rem;
+}
+
+.graphique{
+  width: 32%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .5rem;
+  padding-bottom: .5rem;
+  border-radius: 0.375rem;
+  background-color: #27272a;
+  gap: .5rem;
+}
+.detail .graphique { 
+  width: 20%;
+  height: 15%;
+}
+
+.detail .selectionner {
+  width: 80%;
+  height: 90%;
+  order: 1;
+}
+
+.activeRotation {
+  animation: rotate 1s forwards;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bg-wip{
+  background-color: #27272a;
+  background: repeating-linear-gradient( -45deg, #374151, #374151 2px, #27272a 2px, #27272a 15px );
+}
+.wip::after{
+  content: "...";
+  padding-left: 1px;
+}
+.wip:hover:after{
+  animation: dots 1.5s steps(3, end) infinite;
+}
+@keyframes dots {
+  0% {
+    content: ".";
+  }
+  33% {
+    content: "..";
+  }
+  66% {
+    content: "...";
+  }
+  100% {
+    content: ".";
+  }
+}
+.wip{
+  transition: .3s cubic-bezier(0,0,1,1);
+}
+
+.wip:hover{
+  transform: scale(110%);
+  background-color: #374151;
+}
+
+.render{
+  height: 100%;
+  border-radius: 0.375rem;
+}
+
+/* Style pour les tableaux process-tab et group-tab */
+.custom-table {
+  border: 1px solid #3f3f46; /* Ajout d'une bordure fine */
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-thead {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  background-color: #27272a; /* Couleur sombre pour le header */
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: left; 
+  margin-right: 10px;
+}
+
+.custom-thead div {
+  padding: 0.2rem;
+}
+
+.custom-tbody {
+  display: flex;
+  flex-direction: column;
+  background-color: #18181b; /* Corps légèrement plus clair */
+  color: #d1d5db; /* Texte gris clair */
+  overflow-y: auto;
+  max-height: 150px; /* Défilement si nécessaire */
+  min-height: 150px;
+}
+
+.custom-tbody .line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 35%;
+  transition: background-color 0.3s ease;
+}
+
+.custom-tbody .line:nth-child(even) {
+  background-color: #232323; /* Alternance pour meilleure lisibilité */
+}
+
+.custom-tbody .line:hover {
+  background-color: #374151; /* Survol */
+}
+
+.titleHeader:hover {
+  background-color: #374151;
+}
+
+.cell {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.col-1 {
+  width: 75%;
+  padding-left: 2rem;
+}
+
+.col-2 {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.col-2 input[type="checkbox"], .green-checkbox {
+  accent-color: #10b981; /* Vert Tailwind */
+}
+
+.col-2.line{
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+}
+
+.col-3{
+  padding-left: .5rem;
+}
+.col-3.line{
+  padding-right: 1rem;
+  padding-left: 1.5rem;
+}
+
+.group-tab .custom-thead {
+  text-align: center;
+}
+
+.group-tab .line {
+  justify-content: space-between;
+}
+
+.group-tab .line div {
+  flex: 1;
+  text-align: center;
+}
+
+#options{
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  justify-content: center;
+  background-color: #27272a;
+  padding: 1em;
+  border-radius: 0.375rem;
+}
+
+
+.inria-sans-light {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.inria-sans-regular {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.inria-sans-bold {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.inria-sans-light-italic {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.inria-sans-regular-italic {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.inria-sans-bold-italic {
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.roboto-thin-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.roboto-light-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.roboto-medium-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.roboto-bold-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.roboto-black-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+#SearchBar {
+  background-color: #232323;
+  margin-left: 2rem;
+  border: 1px solid #ffffff36;
+  padding: 0 10px;
+  border-radius: 8px;
+}

@@ -1,0 +1,37 @@
+{
+  "name": "ecofloc-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "compileCss": "npx tailwindcss -i ./src/Css/input.css -o ./src/Css/output.css --watch",
+    "buildApplication": "pkg start.js --targets node18-win-x64 --output ../vite-server.exe",
+    "downloadPKG": "npm install -g pkg",
+    "execApp": "cd .. && ./vite-server.exe fix"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "tailwindcss": "^3.4.15",
+    "vite": "^5.4.10"
+  },
+  "pkg": {
+    "assets": [
+      "node_modules/open/**/*",
+      "node_modules/default-browser/**/*",
+      "node_modules/define-lazy-prop/**/*",
+      "node_modules/is-inside-container/**/*",
+      "node_modules/is-wsl/**/*",
+      "node_modules/is-docker/**/*"
+    ],
+    "scripts": [
+      "node_modules/open/xdg-open"
+    ]
+  },
+  "dependencies": {
+    "punycode": "^2.3.1"
+  }
+}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300;400;700&family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <title>Monitoring Dashboard</title>
+</head>
+
+<body class="flex flex-col divide-y-4 divide-emerald-400 inria-sans-regular overflow-hidden">
+    <!-- Header -->
+    <header class="flex flex-row justify-center align-center bg-zinc-800 text-white text-xl">
+        <img class="w-16 h-auto absolute left-4" src="../image/EcoflocIcon.webp" alt="EcoflocIcon">
+        <div class="w-full px-[26%] flex flex-row justify-center content-center">
+            <a href="../">
+                <h2 class="titleHeader rounded-t transition duration-400 ease-in-out bg-zinc-800 hover:cursor-pointer text-center text-2xl font-semibold p-4">
+                    Home
+                </h2>
+            </a>
+            <a href="#">
+                <h2 class="text-emerald-600 titleHeader rounded-t transition duration-400 ease-in-out bg-zinc-800 hover:cursor-pointer text-center text-2xl font-semibold p-4">
+                    Monitoring
+                </h2>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class=" flex-1 flex flex-col w-full bg-zinc-900 text-white">
+            
+        
+            <!-- Graphs -->
+            <div id="flex-graphique" class="list-graph h-3/4 flex-1">
+                
+            </div>
+
+            <!-- Options & Table -->
+            <section class="w-full flex h-1/4 gap-[.5em] my-[.5em] ">
+                <aside id="options">
+                    <!-- Ipt-TimeStamp -->
+                    <div id="input_ts" class="mt-4 sidebar-transition">
+                        <label class="block mb-2">Intervalle (ms)</label>
+                        <input type="number" min="500" value="1000" max="30000" step="250" class="w-full bg-zinc-700 text-white p-2 rounded-md">
+                    </div>
+                    <!-- Play/Stop buttons -->
+                    <div id="list-buttons" class="sidebar-transition">
+                        <button id="start-button" onclick="executeScript(); return false;" class="p-2">
+                            <img src="../assets/play.svg" alt="play" class="size-[50px]">
+                        </button>
+                        <button id="stop-button" class="p-2" onclick="stopExecutable()">
+                            <img src="../assets/stop.svg" alt="stop" class="size-[50px]">
+                        </button>
+                    </div>
+                </aside>
+                <div id="list-tab" class="w-full h-full flex flex-row justify-between bg-zinc-800 rounded-md p-2 px-2 gap-5">
+                    <div id="process-tab" class="custom-table w-3/4">
+                    <div class="custom-thead">
+                        <div class="col-1">
+                            Process name
+                            <input type="text" id="SearchBar" placeholder="Search..">
+                        </div>
+                        <div class="col-2">PID</div>
+                        <div>
+                            <button onclick="updateListPID()" placeholder="text" class="rotateOnClick">
+                                <img src="https://cdn-icons-png.flaticon.com/128/2805/2805355.png" alt="Refresh" title="Refresh" width="20" height="20" style="filter: brightness(0) invert(1);">
+                            </button>
+                        </div>
+                        <div>
+                            <input class="green-checkbox" type="checkbox" id="SelectAllProc">
+                        </div>
+                    </div>
+                    <div class="custom-tbody" id="ListeProcessus">
+                    </div>
+                    </div>
+                    <div id="group-tab" class="custom-table w-1/4">
+                    <div class="custom-thead col-3">
+                        <div>Group Application</div>
+                    </div>
+                    <div class="custom-tbody" id="TableFilter">
+                        <div class="line col-3">
+                            <div>All</div>
+                            <input type="checkbox" id="AllFilter" value="All">
+                        </div>
+                        <div class="line col-3">
+                            <div>OfficeApplication</div>
+                            <input type="checkbox" id="OfficeApplicationFilter" value="Office">
+                        </div>
+                        <div class="line col-3">
+                            <div>Browser</div>
+                            <input type="checkbox" id="NavigateurFilter" value="Browser">
+                        </div>
+                        <div class="line col-3">
+                            <div>Other</div>
+                            <input type="checkbox" id="OtherFilter" value="Other">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Script -->
+    <script>
+        document.querySelector('.rotateOnClick').addEventListener('click', function() {
+        this.classList.add('activeRotation');
+        this.addEventListener('animationend', () => {
+            this.classList.remove('activeRotation');
+        });
+        });
+        const max_screen_height = "max-h-[" + window.innerHeight + "px]";
+        const min_screen_height = "min-h-[" + window.innerHeight + "px]";
+        document.body.classList.add(max_screen_height);
+        document.body.classList.add(min_screen_height);
+
+
+        function executeScript() {
+        // Adresse de votre serveur Node.js
+        const serverUrl = 'http://localhost:3030/execute';
+
+        // Envoi d'une requête POST au serveur
+        fetch(serverUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // Ajoutez des données si nécessaire
+            body: JSON.stringify({}),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Script exécuté avec succès :', data.stdout);
+                } else {
+                    console.error(`Erreur lors de l'exécution :`, data.message);
+                    alert(`Erreur : ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Erreur réseau ou serveur :', error);
+                alert('Impossible de contacter le serveur.');
+            });
+        }
+
+        // Définir la fonction stopExecutable en dehors de executeScript
+        function stopExecutable() {
+            fetch('http://localhost:3030/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    alert(data.message);  // Affiche un message à l'utilisateur
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to stop executable');
+                });
+        }
+
+        function updateListPID(){
+            fetch('http://localhost:3030/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    alert(data.message);  // Affiche un message à l'utilisateur
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to stop executable');
+                });
+        }
+        updateListPID();
+
+
+    </script>
+    <script src="../Js/ClassApplication.js"></script>
+    <script src="../Js/process-filter.js"></script>
+    <script src="../Js/ClassDynamicGraph.js"></script>
+    <script src="../Js/affichage-graphique.js"></script>
+    
+    
+</body>
+
+</html>

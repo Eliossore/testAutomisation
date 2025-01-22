@@ -1,0 +1,37 @@
+{
+    "apps": [
+        {
+            "color": "#A56C82",
+            "pid": 12,
+            "power_w_CPU": 60,
+            "power_w_GPU": 103,
+            "power_w_NIC": 2,
+            "power_w_SD": 13
+        },
+        {
+            "color": "#C188A1",
+            "pid": 751,
+            "power_w_CPU": 60,
+            "power_w_GPU": 103,
+            "power_w_NIC": 7,
+            "power_w_SD": 8
+        },
+        {
+            "color": "#869897",
+            "pid": 3419,
+            "power_w_CPU": 61,
+            "power_w_GPU": 109,
+            "power_w_NIC": 3,
+            "power_w_SD": 5
+        },
+        {
+            "color": "#6FBB56",
+            "pid": 8,
+            "power_w_CPU": 61,
+            "power_w_GPU": 119,
+            "power_w_NIC": 19,
+            "power_w_SD": 15
+        }
+    ],
+    "time": 1737025118
+}
