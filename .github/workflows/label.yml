@@ -10,7 +10,7 @@ run-name: ${{ github.actor }} is building vite-server
 on: push
 
 jobs:
-  create-release:
+  create-releas:
       runs-on: ubuntu-latest
       outputs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
@@ -20,7 +20,7 @@ jobs:
             uses: actions/create-release@v1
             with:
                 tag_name: "release-${{ github.run_number }}"
-                release_name: "Algoforge Release #${{ github.run_number }}"
+                release_name: "test release #${{ github.run_number }}"
                 draft: false
                 prerelease: false
             env:
@@ -31,7 +31,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    needs: create-release
+    needs: create-releas
 
     steps:
     - name: Checkout
@@ -45,13 +45,14 @@ jobs:
     - name: move to ecofloc-UI
       run: cd ecofloc-UI
     - name: build vite-server.exe
+      working-directory: ecofloc-UI
       run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
     - name: Upload build artifact to release
       uses: actions/upload-release-asset@v1
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          upload_url: ${{ needs.create-releas.outputs.upload_url }}
           asset_path: ./vite-server.exe
           asset_name: vite-server.exe
           asset_content_type: application/exe
