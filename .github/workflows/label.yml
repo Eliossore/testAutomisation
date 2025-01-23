@@ -7,7 +7,7 @@
 
 name: Build vite-server
 run-name: ${{ github.actor }} is building vite-server
-on: [watch]
+on: push
 
 jobs:
   create-release:
