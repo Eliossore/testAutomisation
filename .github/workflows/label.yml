@@ -30,7 +30,7 @@ jobs:
 
     runs-on: windows-latest
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
     needs: create-release
 
