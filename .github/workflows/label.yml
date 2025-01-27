@@ -82,6 +82,12 @@ jobs:
         run: dir
       - name: Setup anew (or from cache) vcpkg (and does not build any package)
         run: vcpkg install
+      - uses: Jimver/cuda-toolkit@v0.2.21
+        id: cuda-toolkit
+        with:
+          cuda: '11.7.0'
+      - name: check directory
+        run: dir
       - name: compile
         working-directory: ecofloc4win
         run: msbuild ecofloc4win.vcxproj
