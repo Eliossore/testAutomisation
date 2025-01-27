@@ -89,8 +89,7 @@ jobs:
       - name: check directory
         run: dir
       - name: compile
-        working-directory: ecofloc4win
-        run: msbuild ./
+        run: msbuild /property:Configuration=Release
       - name: check the directory content
         working-directory: ecofloc4win
         run: dir
