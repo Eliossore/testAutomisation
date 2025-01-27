@@ -22,12 +22,12 @@ jobs:
           with:
               tag_name: "release-${{ github.run_number }}"
               release_name: "test release #${{ github.run_number }}"
-              draft: false
+              draft: true
               prerelease: false
           env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  build:
-
+  build-vite-server:
+  
     runs-on: windows-latest
     permissions:
       contents: write
@@ -35,26 +35,66 @@ jobs:
     needs: create-release
 
     steps:
-    - name: Checkout
+    - name: Checkout Ecofloc
       uses: actions/checkout@v4
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Building vite-server
+      run: echo Now Building vite-server
     - name: Install Node
       uses: actions/setup-node@v4
     - name: install pkg
       run: npm install -g pkg
-    - name: move to ecofloc-UI
-      run: cd ecofloc-UI
     - name: build vite-server.exe
       working-directory: ecofloc-UI
       run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
-    - name: Upload build artifact to release
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./vite-server.exe
-          asset_name: vite-server.exe
-          asset_content_type: application/exe
-  
+    # - name: Upload build artifact to release
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+    #       asset_path: ./vite-server.exe
+    #       asset_name: vite-server.exe
+    #       asset_content_type: application/exe
+          
+  build-ecofloc4win:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: create-release
+    
+    steps:
+      - name: Checkout Ecofloc
+        uses: actions/checkout@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Building Ecofloc4win
+        working-directory: ecofloc-UI
+        run: echo Now Building ecofloc4win
+      - name: setup msvc compiler
+        uses: ilammy/msvc-dev-cmd@v1.4.1
+      - name: setup msbuild
+        uses: microsoft/setup-msbuild@v2
+      - name: check the directory content
+        working-directory: ecofloc4win
+        run: dir
+      - name: compile
+        working-directory: ecofloc4win
+        run: msbuild ecofloc4win.vcxproj
+      - name: check the directory content
+        working-directory: ecofloc4win
+        run: dir
+      - name: check the directory content
+        run: dir
+      # - name: Upload build artifact to release
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+      #       asset_path: ./ecofloc4win.exe
+      #       asset_name: ecofloc4win.exe
+      #       asset_content_type: application/exe
+    
