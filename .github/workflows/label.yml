@@ -10,29 +10,29 @@ run-name: ${{ github.actor }} is building vite-server
 on: push
 
 jobs:
-  create-release:
-    permissions: write-all
-    runs-on: ubuntu-latest
-    outputs:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-    steps:
-        - name: Create GitHub Release
-          id: create_release
-          uses: actions/create-release@v1
-          with:
-              tag_name: "release-${{ github.run_number }}"
-              release_name: "test release #${{ github.run_number }}"
-              draft: true
-              prerelease: false
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # create-release:
+  #   permissions: write-all
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #       upload_url: ${{ steps.create_release.outputs.upload_url }}
+  #   steps:
+  #       - name: Create GitHub Release
+  #         id: create_release
+  #         uses: actions/create-release@v1
+  #         with:
+  #             tag_name: "release-${{ github.run_number }}"
+  #             release_name: "test release #${{ github.run_number }}"
+  #             draft: true
+  #             prerelease: false
+  #         env:
+  #             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-vite-server:
   
     runs-on: windows-latest
     permissions:
       contents: write
       pull-requests: write
-    needs: create-release
+    # needs: create-release
 
     steps:
     - name: Checkout Ecofloc
@@ -63,7 +63,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    needs: create-release
+    # needs: create-release
     
     steps:
       - name: Checkout Ecofloc
@@ -82,7 +82,7 @@ jobs:
         run: dir
       - name: Setup anew (or from cache) vcpkg (and does not build any package)
         working-directory: ecofloc4win
-        run: vcpkg install
+        run: vcpkg --install
       - name: compile
         working-directory: ecofloc4win
         run: msbuild ecofloc4win.vcxproj
