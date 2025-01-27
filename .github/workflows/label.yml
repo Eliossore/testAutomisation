@@ -81,7 +81,8 @@ jobs:
         working-directory: ecofloc4win
         run: dir
       - name: Setup anew (or from cache) vcpkg (and does not build any package)
-        uses: lukka/run-vcpkg@v11
+        working-directory: ecofloc4win
+        run: vcpkg install
       - name: compile
         working-directory: ecofloc4win
         run: msbuild ecofloc4win.vcxproj
