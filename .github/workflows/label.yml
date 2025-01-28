@@ -82,14 +82,16 @@ jobs:
         run: dir
       - name: Setup anew (or from cache) vcpkg (and does not build any package)
         run: vcpkg install
-      # - uses: Jimver/cuda-toolkit@v0.2.21
-      #   id: cuda-toolkit
-      #   with:
-      #     cuda: '11.7.0'
+      - name: Move vcpkg to ecofloc4win
+        run: mv .\vcpkg_installed\ .\ecofloc4win\
+      - uses: Jimver/cuda-toolkit@v0.2.21
+        id: cuda-toolkit
+        with:
+          cuda: '11.7.0'
       - name: check directory
         run: dir
       - name: compile
-        run: msbuild /property:Configuration=Release
+        run: msbuild /property:Configuration=Release /verbosity:m .\ecofloc4win.sln
       - name: check the directory content
         working-directory: ecofloc4win
         run: dir
