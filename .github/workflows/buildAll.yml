@@ -93,7 +93,7 @@ jobs:
         run: dir
       - name: Compile Ecofloc4Win
         working-directory: ecofloc4win
-        run: msbuild /property:Configuration=Release .\ecofloc4win.sln
+        run: msbuild /property:Configuration=Release .\ecofloc4win.vcxproj
       - name: check the directory content
         run: dir
       # - name: Upload build artifact to release
@@ -105,4 +105,9 @@ jobs:
       #       asset_path: ./ecofloc4win.exe
       #       asset_name: ecofloc4win.exe
       #       asset_content_type: application/exe
-    
+  # build-PIDRecup:
+  #   runs-on: windows-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+    # needs: create-release
