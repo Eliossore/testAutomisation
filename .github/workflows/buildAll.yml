@@ -95,7 +95,7 @@ jobs:
         working-directory: ecofloc4win
         run: msbuild /property:Configuration=Release .\ecofloc4win.vcxproj
       - name: check the directory content
-        run: dir
+        run: dir -Recurse
       # - name: Upload build artifact to release
       #   uses: actions/upload-release-asset@v1
       #   env:
