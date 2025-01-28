@@ -81,14 +81,14 @@ jobs:
         uses: microsoft/setup-msbuild@v2
       - name: Installing additional packages
         run: vcpkg install
-      - name: Installing CUDA
-      # - uses: Jimver/cuda-toolkit@v0.2.21
+      # - name: Installing CUDA
+      #   uses: Jimver/cuda-toolkit@v0.2.21
       #   id: cuda-toolkit
       #   with:
       #     cuda: '11.7.0'
       - name: Moving vcpkg to ecofloc4win
         run: mv .\vcpkg_installed\ .\ecofloc4win\
-      - name: check
+      - name: check directory
         working-directory: ecofloc-UI
         run: dir
       - name: Compile Ecofloc4Win
