@@ -89,10 +89,10 @@ jobs:
       - name: Moving vcpkg to ecofloc4win
         run: mv .\vcpkg_installed\ .\ecofloc4win\
       - name: check directory
-        working-directory: ecofloc-UI
+        working-directory: ecofloc4win
         run: dir
       - name: Compile Ecofloc4Win
-        run: msbuild /property:Configuration=Release /verbosity:m .\ecofloc4win.sln
+        run: msbuild /property:Configuration=Release .\ecofloc4win.sln
       - name: check the directory content
         run: dir
       # - name: Upload build artifact to release
