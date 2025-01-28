@@ -5,8 +5,8 @@
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
 
-name: Build vite-server
-run-name: ${{ github.actor }} is building vite-server
+name: Build all
+run-name: ${{ github.actor }} is building all apps
 on: push
 
 jobs:
@@ -73,28 +73,26 @@ jobs:
       - name: Building Ecofloc4win
         working-directory: ecofloc-UI
         run: echo Now Building ecofloc4win
-      - name: setup msvc compiler
+      - name: Seting up cl, msbuild, vcpkg (txui) and cuda
+        run: echo "Setting everything up"
+      - name: Installing cl compiler
         uses: ilammy/msvc-dev-cmd@v1.4.1
-      - name: setup msbuild
+      - name: Installing msbuild
         uses: microsoft/setup-msbuild@v2
-      - name: check the directory content
-        working-directory: ecofloc4win
-        run: dir
-      - name: Setup anew (or from cache) vcpkg (and does not build any package)
+      - name: Installing additional packages
         run: vcpkg install
-      - name: Move vcpkg to ecofloc4win
+      - name: Installing CUDA
+      # - uses: Jimver/cuda-toolkit@v0.2.21
+      #   id: cuda-toolkit
+      #   with:
+      #     cuda: '11.7.0'
+      - name: Moving vcpkg to ecofloc4win
         run: mv .\vcpkg_installed\ .\ecofloc4win\
-      - uses: Jimver/cuda-toolkit@v0.2.21
-        id: cuda-toolkit
-        with:
-          cuda: '11.7.0'
-      - name: check directory
+      - name: check
+        working-directory: ecofloc-UI
         run: dir
-      - name: compile
+      - name: Compile Ecofloc4Win
         run: msbuild /property:Configuration=Release /verbosity:m .\ecofloc4win.sln
-      - name: check the directory content
-        working-directory: ecofloc4win
-        run: dir
       - name: check the directory content
         run: dir
       # - name: Upload build artifact to release
