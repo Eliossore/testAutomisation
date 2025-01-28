@@ -6,7 +6,7 @@ process::process(string pid, string name)
 	this->setName(name);
 }
 
-string process::getPid()
+string process::getPid() const
 {
 	return this->m_pid;
 }

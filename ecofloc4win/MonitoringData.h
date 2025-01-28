@@ -12,6 +12,14 @@ struct IoEventInfo {
 	ULONG bytesTransferred = 0;  // Track total bytes transferred for each IRP
 };
 
+enum ComponentType
+{
+	h_CPU,
+	h_GPU,
+	h_SD,
+	h_NIC
+};
+
 class MonitoringData
 {
 public:
@@ -33,6 +41,9 @@ public:
 
 	std::string getName() const;
 	std::vector<int> getPids() const;
+
+	void enableComponent(const std::string& component);
+	void disableComponent(const std::string& component);
 
 	void setCPUEnabled(bool enabled);
 	void setGPUEnabled(bool enabled);

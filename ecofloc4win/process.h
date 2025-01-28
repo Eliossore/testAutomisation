@@ -13,14 +13,36 @@ private:
     string m_name;
 
 public:
-    process(string, string);
-    string getPid();
+    /**
+	* @brief Constructor for the process class.
+    * 
+	* @param pid The process ID.
+	* @param name The process name.
+    */
+    process(string pid, string name);
+
+	/**
+	* @brief Getter for the process ID.
+    * 
+	* @return string The process ID.
+    */
+    string getPid() const;
+
+    /**
+	* @brief Getter for the process name.
+    * 
+	* @return string The process name.
+    */
     string getName();
+
+	/**
+	* @brief Setter for the process ID.
+    */
     void setPid(string);
+
+	/**
+	* @brief Setter for the process name.
+    */ 
     void setName(string);
-    /*void addProcPid();
-    void addProcName();
-    void removeProcPid();
-    void removeProcName();*/
 };
 

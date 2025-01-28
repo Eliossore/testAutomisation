@@ -10,7 +10,7 @@ typedef float* (*get_cpu_clocks_func)(int* size);
 typedef float* (*get_cpu_cores_power_func)(int* size);
 
 /// Namespace for CPU-related functionalities.
-namespace cpu
+namespace CPU
 {
     /**
      * @brief Converts a FILETIME structure to a uint64_t.
@@ -18,7 +18,7 @@ namespace cpu
      * @param ft The FILETIME structure to convert.
      * @return uint64_t The converted value.
      */
-    uint64_t from_file_time(const FILETIME& ft)
+    uint64_t fromFileTime(const FILETIME& ft)
     {
         ULARGE_INTEGER uli = { 0 };
         uli.LowPart = ft.dwLowDateTime;
@@ -31,13 +31,13 @@ namespace cpu
      *
      * @return uint64_t The total CPU time in 100-nanosecond intervals. Returns -1 on failure.
      */
-    uint64_t get_cpu_time()
+    uint64_t getCPUTime()
     {
         FILETIME idle_time, kernel_time, user_time;
 
         if (GetSystemTimes(&idle_time, &kernel_time, &user_time))
         {
-            uint64_t cpu_time = from_file_time(kernel_time) + from_file_time(user_time) + from_file_time(idle_time);
+            uint64_t cpu_time = fromFileTime(kernel_time) + fromFileTime(user_time) + fromFileTime(idle_time);
             return cpu_time;
         }
         else
@@ -53,7 +53,7 @@ namespace cpu
      * @param pid The process ID of the target process.
      * @return uint64_t The total process time (kernel + user) in 100-nanosecond intervals. Returns -1 on failure.
      */
-    uint64_t get_pid_time(DWORD pid)
+    uint64_t getPidTime(DWORD pid)
     {
         HANDLE h_process = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
         if (h_process == NULL)
@@ -66,8 +66,8 @@ namespace cpu
 
         if (GetProcessTimes(h_process, &creation_time, &exit_time, &kernel_time, &user_time))
         {
-            uint64_t kernel = from_file_time(kernel_time);
-            uint64_t user = from_file_time(user_time);
+            uint64_t kernel = fromFileTime(kernel_time);
+            uint64_t user = fromFileTime(user_time);
 
             uint64_t total_time = kernel + user;
             CloseHandle(h_process);
@@ -89,7 +89,7 @@ namespace cpu
      * @param power A reference to a double where the calculated power will be stored.
      * @return bool True if the power was successfully retrieved, false otherwise.
      */
-    bool get_current_power(double& power)
+    bool getCurrentPower(double& power)
     {
         HMODULE h_module = LoadLibrary(L"Wrapper.dll");
         if (!h_module)
