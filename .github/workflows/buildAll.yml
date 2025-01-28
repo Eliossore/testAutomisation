@@ -92,6 +92,7 @@ jobs:
         working-directory: ecofloc4win
         run: dir
       - name: Compile Ecofloc4Win
+        working-directory: ecofloc4win
         run: msbuild /property:Configuration=Release .\ecofloc4win.sln
       - name: check the directory content
         run: dir
