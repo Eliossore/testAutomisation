@@ -144,6 +144,9 @@ jobs:
           dotnet-version: '8.0.403'
       - name: Installing msbuild
         uses: microsoft/setup-msbuild@v2
+      - name: Config to use the correct .NET sdk
+        working-directory: EcoflocConfigurator
+        run: dotnet new globaljson --sdk-version 8.0.403
       - name: Install dependencies
         working-directory: EcoflocConfigurator
         run: dotnet restore
@@ -152,11 +155,11 @@ jobs:
         run: dotnet build
       - name: check the directory content
         run: dir -Recurse
-      - name: Compile EcoflocConfigurator
-        working-directory: EcoflocConfigurator
-        run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
-      - name: check the directory content
-        run: dir -Recurse
+      # - name: Compile EcoflocConfigurator
+      #   working-directory: EcoflocConfigurator
+      #   run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
+      # - name: check the directory content
+      #   run: dir -Recurse
       
     
 
