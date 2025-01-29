@@ -152,7 +152,7 @@ jobs:
         run: dotnet build
       - name: Compile EcoflocConfigurator
         working-directory: EcoflocConfigurator
-        run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
+        run: msbuild /property:Configuration=Release /tv:8.0.10 /p:TargetFrameworkVersion=v8.0.10 .\EcoflocConfigurator.csproj
       
     
 
