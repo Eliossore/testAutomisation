@@ -10,22 +10,24 @@ run-name: ${{ github.actor }} is building all apps
 on: push
 
 jobs:
-  # create-release:
-  #   permissions: write-all
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #       upload_url: ${{ steps.create_release.outputs.upload_url }}
-  #   steps:
-  #       - name: Create GitHub Release
-  #         id: create_release
-  #         uses: actions/create-release@v1
-  #         with:
-  #             tag_name: "release-${{ github.run_number }}"
-  #             release_name: "test release #${{ github.run_number }}"
-  #             draft: true
-  #             prerelease: false
-  #         env:
-  #             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  create-release:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    outputs:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+        - name: Create GitHub Release
+          id: create_release
+          uses: actions/create-release@v1
+          with:
+              tag_name: "release-${{ github.run_number }}"
+              release_name: "test release #${{ github.run_number }}"
+              draft: true
+              prerelease: false
+          env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  
   # build-vite-server:
   
   #   runs-on: windows-latest
@@ -48,15 +50,15 @@ jobs:
   #   - name: build vite-server.exe
   #     working-directory: ecofloc-UI
   #     run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
-  #   - name: Upload build artifact to release
-  #     uses: actions/upload-release-asset@v1
-  #     env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     with:
-  #         upload_url: ${{ needs.create-release.outputs.upload_url }}
-  #         asset_path: ./vite-server.exe
-  #         asset_name: vite-server.exe
-  #         asset_content_type: application/exe
+    # - name: Upload build artifact to release
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+    #       asset_path: ./vite-server.exe
+    #       asset_name: vite-server.exe
+    #       asset_content_type: application/exe
           
   # build-ecofloc4win:
   #   runs-on: windows-latest
@@ -132,6 +134,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    needs: create-release
 
     steps:
       - name: Checkout Ecofloc
@@ -160,7 +163,15 @@ jobs:
       #   run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
       # - name: check the directory content
       #   run: dir -Recurse
-      
+      - name: Upload build artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            upload_url: ${{ needs.create-release.outputs.upload_url }}
+            asset_path: ./EcoflocConfigurator/bin/Debug/net8.0-windows/EcoflocConfigurator.exe
+            asset_name: EcoflocConfigurator.exe
+            asset_content_type: application/exe
     
 
   # create-installer:
