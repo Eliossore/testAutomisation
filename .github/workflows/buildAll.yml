@@ -141,7 +141,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.10'
+          dotnet-version: '8.0.403'
       - name: Installing msbuild
         uses: microsoft/setup-msbuild@v2
       - name: Install dependencies
