@@ -150,9 +150,13 @@ jobs:
       - name: Build
         working-directory: EcoflocConfigurator
         run: dotnet build
+      - name: check the directory content
+        run: dir -Recurse
       - name: Compile EcoflocConfigurator
         working-directory: EcoflocConfigurator
-        run: msbuild /property:Configuration=Release /p:TargetFrameworkVersion=8.0.10 .\EcoflocConfigurator.csproj
+        run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
+      - name: check the directory content
+        run: dir -Recurse
       
     
 
