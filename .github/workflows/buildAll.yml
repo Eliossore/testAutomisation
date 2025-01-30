@@ -203,6 +203,10 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1.4.1
       - name: Installing msbuild
         uses: microsoft/setup-msbuild@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.102'
       - name: Compile Wrapper
         working-directory: Wrapper
         run: msbuild /property:Configuration=Release .\Wrapper.vcxproj
