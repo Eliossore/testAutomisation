@@ -150,9 +150,9 @@ jobs:
       - name: Config to use the correct .NET sdk
         working-directory: EcoflocConfigurator
         run: dotnet new globaljson --sdk-version 8.0.403
-      # - name: Install dependencies
-      #   working-directory: EcoflocConfigurator
-      #   run: dotnet restore
+      - name: Install dependencies
+        working-directory: EcoflocConfigurator
+        run: dotnet restore
       # - name: Build
       #   working-directory: EcoflocConfigurator
       #   run: dotnet build
