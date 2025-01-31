@@ -210,6 +210,13 @@ jobs:
       - name: Install dependencies
         working-directory: Wrapper
         run: dotnet restore
+      - name: Install dependencies
+        working-directory: Wrapper
+        run: dotnet nuget install
+      - name: Install dependencies
+        working-directory: Wrapper
+        run: dotnet nuget restore
+        
       - name: Compile Wrapper
         working-directory: Wrapper
         run: msbuild /property:Configuration=Release .\Wrapper.vcxproj
