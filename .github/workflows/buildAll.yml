@@ -88,7 +88,6 @@ jobs:
         id: cuda-toolkit
         with:
           cuda: '11.7.0'
-          sub-packages: '["visual_studio_integration","nvcc"]'
       # - name: Moving vcpkg to ecofloc4win
       #   run: mv .\vcpkg_installed\ .\ecofloc4win\
       - name: Compile Ecofloc4Win
