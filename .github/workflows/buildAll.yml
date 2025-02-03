@@ -28,73 +28,76 @@ jobs:
   #             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   
-  # build-vite-server:
+  build-vite-server:
   
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   needs: create-release
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: create-release
 
-  #   steps:
-  #   - name: Checkout Ecofloc
-  #     uses: actions/checkout@v4
-  #     with:
-  #       repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #   - name: Building vite-server
-  #     run: echo Now Building vite-server
-  #   - name: Install Node
-  #     uses: actions/setup-node@v4
-  #   - name: install pkg
-  #     run: npm install -g pkg
-  #   - name: build vite-server.exe
-  #     working-directory: ecofloc-UI
-  #     run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
-    # - name: Upload build artifact to release
-    #   uses: actions/upload-release-asset@v1
-    #   env:
-    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #       upload_url: ${{ needs.create-release.outputs.upload_url }}
-    #       asset_path: ./vite-server.exe
-    #       asset_name: vite-server.exe
-    #       asset_content_type: application/exe
+    steps:
+    - name: Checkout Ecofloc
+      uses: actions/checkout@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Building vite-server
+      run: echo Now Building vite-server
+    - name: Install Node
+      uses: actions/setup-node@v4
+    - name: install pkg
+      run: npm install -g pkg
+    - name: build vite-server.exe
+      working-directory: ecofloc-UI
+      run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
+    - name: Upload build artifact to release
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./vite-server.exe
+          asset_name: vite-server.exe
+          asset_content_type: application/exe
           
-  # build-ecofloc4win:
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   # needs: create-release
+  build-ecofloc4win:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    # needs: create-release
     
-  #   steps:
-  #     - name: Checkout Ecofloc
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #     - name: Building Ecofloc4win
-  #       working-directory: ecofloc-UI
-  #       run: echo Now Building ecofloc4win
-  #     - name: Seting up cl, msbuild, vcpkg (txui) and cuda
-  #       run: echo "Setting everything up"
-  #     - name: Installing cl compiler
-  #       uses: ilammy/msvc-dev-cmd@v1.4.1
-  #     - name: Installing msbuild
-  #       uses: microsoft/setup-msbuild@v2
-  #     - name: Installing additional packages
-  #       run: vcpkg install
-  #     - name: Installing CUDA
-  #       uses: Jimver/cuda-toolkit@v0.2.21
-  #       id: cuda-toolkit
-  #       with:
-  #         cuda: '11.7.0'
+    steps:
+      - name: Checkout Ecofloc
+        uses: actions/checkout@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Building Ecofloc4win
+        working-directory: ecofloc-UI
+        run: echo Now Building ecofloc4win
+      - name: Seting up cl, msbuild, vcpkg (txui) and cuda
+        run: echo "Setting everything up"
+      - name: Installing cl compiler
+        uses: ilammy/msvc-dev-cmd@v1.4.1
+      - name: Installing msbuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Installing additional packages
+        run: vcpkg install
+      - name: Installing CUDA
+        uses: Jimver/cuda-toolkit@v0.2.21
+        id: cuda-toolkit
+        with:
+          cuda: '11.7.0'
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.405'
   #     # - name: Moving vcpkg to ecofloc4win
   #     #   run: mv .\vcpkg_installed\ .\ecofloc4win\
-  #     - name: Compile Ecofloc4Win
-  #       working-directory: ecofloc4win
-  #       run: msbuild /property:Configuration=Release .\ecofloc4win.vcxproj
-  #     - name: check the directory content
-  #       run: dir -Recurse
+      - name: Compile Ecofloc4Win
+        run: msbuild /property:Configuration=Release /t:Restore .\ecofloc4win.sln
+      - name: check the directory content
+        run: dir -Recurse
   #     # - name: Upload build artifact to release
   #     #   uses: actions/upload-release-asset@v1
   #     #   env:
@@ -167,48 +170,48 @@ jobs:
   #     - name: check the directory content
   #       run: dir -Recurse
     
-  build-wrapper:
-    runs-on: windows-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    # needs: create-release
+  # build-wrapper:
+  #   runs-on: windows-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   # needs: create-release
     
-    steps:
-      - name: Checkout Ecofloc
-        uses: actions/checkout@v4
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Building Wrapper
-        working-directory: ecofloc-UI
-        run: echo Now Building ecofloc4win
-      - name: Seting up cl, msbuild
-        run: echo "Setting everything up"
-      - name: Installing cl compiler
-        uses: ilammy/msvc-dev-cmd@v1.4.1
-      - name: Installing msbuild
-        uses: microsoft/setup-msbuild@v2
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.405'
-      # - name: Install dependencies
-      #   working-directory: Wrapper
-      #   run: dotnet restore
-      - name: Compile Wrapper
-        working-directory: Wrapper
-        run: msbuild /property:Configuration=Release /t:Restore .\Wrapper.vcxproj
-      - name: check the directory content
-        run: dir -Recurse
-      # - name: Upload build artifact to release
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #       upload_url: ${{ needs.create-release.outputs.upload_url }}
-      #       asset_path: ./ecofloc4win.exe
-      #       asset_name: ecofloc4win.exe
-      #       asset_content_type: application/exe
+  #   steps:
+  #     - name: Checkout Ecofloc
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+  #     - name: Building Wrapper
+  #       working-directory: ecofloc-UI
+  #       run: echo Now Building ecofloc4win
+  #     - name: Seting up cl, msbuild
+  #       run: echo "Setting everything up"
+  #     - name: Installing cl compiler
+  #       uses: ilammy/msvc-dev-cmd@v1.4.1
+  #     - name: Installing msbuild
+  #       uses: microsoft/setup-msbuild@v2
+  #     - name: Setup dotnet
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: '8.0.405'
+  #     # - name: Install dependencies
+  #     #   working-directory: Wrapper
+  #     #   run: dotnet restore
+  #     - name: Compile Wrapper
+  #       working-directory: Wrapper
+  #       run: msbuild /property:Configuration=Release /t:Restore .\Wrapper.vcxproj
+  #     - name: check the directory content
+  #       run: dir -Recurse
+  #     # - name: Upload build artifact to release
+  #     #   uses: actions/upload-release-asset@v1
+  #     #   env:
+  #     #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     #   with:
+  #     #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+  #     #       asset_path: ./ecofloc4win.exe
+  #     #       asset_name: ecofloc4win.exe
+  #     #       asset_content_type: application/exe
 
   # create-installer:
   #   runs-on: windows-latest
