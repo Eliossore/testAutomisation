@@ -88,9 +88,9 @@ jobs:
         id: cuda-toolkit
         with:
           cuda: '11.7.0'
-          sub-packages: '["nvml","visual_studio_integration","nvcc"]'
-      - name: Moving vcpkg to ecofloc4win
-        run: mv .\vcpkg_installed\ .\ecofloc4win\
+          sub-packages: '["visual_studio_integration","nvcc"]'
+      # - name: Moving vcpkg to ecofloc4win
+      #   run: mv .\vcpkg_installed\ .\ecofloc4win\
       - name: Compile Ecofloc4Win
         run: msbuild /property:Configuration=Release .\ecofloc4win.sln
       - name: check the directory content
