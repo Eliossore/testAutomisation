@@ -107,34 +107,38 @@ namespace CPU
         }
 
         int power_size = 0;
-        int cpu_count = 0;
         float* power_array = get_cpu_cores_power(&power_size);
 
-        if (power_array)
-        {
-            for (int i = 0; i < power_size; i++)
-            {
-                power += power_array[i];
-                cpu_count++;
-            }
-            delete[] power_array;
-        }
-        else
+        if (!power_array)
         {
             std::cerr << "Failed to retrieve CPU power." << std::endl;
+            FreeLibrary(h_module);
+            return false;
         }
+
+        // Initialize power and cpu_count
+        power = 0.0;
+        int cpu_count = 0;
+
+        for (int i = 0; i < power_size; i++)
+        {
+            power += power_array[i];
+            cpu_count++;
+        }
+
+        delete[] power_array;  // Free the allocated memory for the power array
 
         if (cpu_count > 0)
         {
-            power = power / cpu_count;
+            power /= cpu_count;  // Compute average power
         }
         else
         {
-            power = 0.0;
+            power = 0.0;  // If no valid CPU power, set power to 0
         }
 
-        FreeLibrary(h_module);
-
+        FreeLibrary(h_module);  // Free the loaded library
         return true;
     }
+
 }

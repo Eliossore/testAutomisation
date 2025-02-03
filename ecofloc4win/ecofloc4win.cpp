@@ -672,7 +672,6 @@ int main()
 				// check if new_data is false and localMonitoringData is empty
 				if (new_data_cpu.load(std::memory_order_release) == false && localMonitoringData.empty())
 				{
-					std::cout << "No new data" << std::endl;
 					std::this_thread::sleep_for(std::chrono::milliseconds(interval));
 					continue;
 				}
@@ -1106,13 +1105,13 @@ void removeProcByLineNumber(const std::string& lineNumber) noexcept
 		new_data_nic.store(true, std::memory_order_release);
 
 		// Enhanced logging
-		std::cout << "Process has been removed from line " << line
-			<< ". Affected components: ";
+		//std::cout << "Process has been removed from line " << line
+		//	<< ". Affected components: ";
 		for (const auto& component : affectedComponents)
 		{
-			std::cout << component << " ";
+			//std::cout << component << " ";
 		}
-		std::cout << std::endl;
+		//std::cout << std::endl;
 	}
 	catch (const std::invalid_argument& e)
 	{
@@ -1178,7 +1177,7 @@ void enable(const string& lineNumber, const string& component)
 			break;
 		}
 
-		std::cout << "Component " << component << " has been enabled for process " << data.getName() << " at line " << line << std::endl;
+		//std::cout << "Component " << component << " has been enabled for process " << data.getName() << " at line " << line << std::endl;
 
 	}
 	catch (const std::invalid_argument& e)
@@ -1245,7 +1244,7 @@ void disable(const string& lineNumber, const string& component)
 			break;
 		}
 
-		std::cout << "Component " << component << " has been enabled for process " << data.getName() << " at line " << line << std::endl;
+		//std::cout << "Component " << component << " has been enabled for process " << data.getName() << " at line " << line << std::endl;
 
 	}
 	catch (const std::invalid_argument& e)
