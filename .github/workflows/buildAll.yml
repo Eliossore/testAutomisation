@@ -95,7 +95,7 @@ jobs:
   #     # - name: Moving vcpkg to ecofloc4win
   #     #   run: mv .\vcpkg_installed\ .\ecofloc4win\
       - name: Compile Ecofloc4Win
-        run: msbuild /property:Configuration=Release /t:Restore .\ecofloc4win.sln
+        run: msbuild /t:Restore .\ecofloc4win.sln
       - name: check the directory content
         run: dir -Recurse
   #     # - name: Upload build artifact to release
