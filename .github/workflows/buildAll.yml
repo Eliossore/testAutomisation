@@ -71,72 +71,75 @@ jobs:
     #       asset_name: vite-server.exe
     #       asset_content_type: application/exe
           
-  build-ecofloc4win:
-    runs-on: windows-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    # needs: create-release
-    
-    steps:
-      - name: Checkout Ecofloc
-        uses: actions/checkout@v4
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Building Ecofloc4win
-        working-directory: ecofloc-UI
-        run: echo Now Building ecofloc4win
-      - name: Seting up cl, msbuild, vcpkg (txui) and cuda
-        run: echo "Setting everything up"
-      - name: Installing cl compiler
-        uses: ilammy/msvc-dev-cmd@v1.4.1
-      - name: Installing msbuild
-        uses: microsoft/setup-msbuild@v2
-      - name: Installing additional packages
-        run: vcpkg install
-      - name: Installing CUDA
-        uses: Jimver/cuda-toolkit@v0.2.21
-        id: cuda-toolkit
-        with:
-          cuda: '11.7.0'
-          non-cuda-sub-packages: '["libnvml"]'
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.405'
-      - name: Installing libreHardWareMonitor
-        run: msbuild /t:Restore .\ecofloc4win.sln
-      - name: Compiling Ecofloc4Win
-        run: msbuild /p:Configuration=Release .\ecofloc4win.sln
-      - name: upload ecofloc4win
-        uses: actions/upload-artifact@v4
-        with:
-          name: ecofloc4win
-          path: ./x64/Release
-
-  # build-PIDRecup:
+  # build-ecofloc4win:
   #   runs-on: windows-latest
   #   permissions:
   #     contents: write
   #     pull-requests: write
   #   # needs: create-release
-
+    
   #   steps:
   #     - name: Checkout Ecofloc
   #       uses: actions/checkout@v4
   #       with:
   #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #     - name: Building PidRecup
+  #     - name: Building Ecofloc4win
+  #       working-directory: ecofloc-UI
   #       run: echo Now Building ecofloc4win
+  #     - name: Seting up cl, msbuild, vcpkg (txui) and cuda
+  #       run: echo "Setting everything up"
   #     - name: Installing cl compiler
   #       uses: ilammy/msvc-dev-cmd@v1.4.1
   #     - name: Installing msbuild
   #       uses: microsoft/setup-msbuild@v2
-  #     - name: Compile PIDRecup
-  #       working-directory: PIDRecup/PIDRecup
-  #       run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
-  #     - name: check the directory content
-  #       run: dir -Recurse
+  #     - name: Installing additional packages
+  #       run: vcpkg install
+  #     - name: Installing CUDA
+  #       uses: Jimver/cuda-toolkit@v0.2.21
+  #       id: cuda-toolkit
+  #       with:
+  #         cuda: '11.7.0'
+  #         non-cuda-sub-packages: '["libnvml"]'
+  #     - name: Setup dotnet
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: '8.0.405'
+  #     - name: Installing libreHardWareMonitor
+  #       run: msbuild /t:Restore .\ecofloc4win.sln
+  #     - name: Compiling Ecofloc4Win
+  #       run: msbuild /p:Configuration=Release .\ecofloc4win.sln
+  #     - name: upload ecofloc4win
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: ecofloc4win
+  #         path: ./x64/Release
+
+  build-PIDRecup:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    # needs: create-release
+
+    steps:
+      - name: Checkout Ecofloc
+        uses: actions/checkout@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Building PidRecup
+        run: echo Now Building ecofloc4win
+      - name: Installing cl compiler
+        uses: ilammy/msvc-dev-cmd@v1.4.1
+      - name: Installing msbuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Compile PIDRecup
+        working-directory: PIDRecup/PIDRecup
+        run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
+      - name: upload PIDRecup
+        uses: actions/upload-artifact@v4
+        with:
+          name: PIDRecup
+          path: ./PIDRecup/x64/Release
         
   # build-EcoflocConfigurator:
   #   runs-on: windows-latest
