@@ -137,11 +137,11 @@ jobs:
         run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
       - name: check directory content
         run: dir -Recurse
-      # - name: upload PIDRecup
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: PIDRecup
-      #     path: ./PIDRecup/x64/Release
+      - name: upload PIDRecup
+        uses: actions/upload-artifact@v4
+        with:
+          name: PIDRecup
+          path: ./PIDRecup/PIDRecup/x64/Release/
         
   # build-EcoflocConfigurator:
   #   runs-on: windows-latest
