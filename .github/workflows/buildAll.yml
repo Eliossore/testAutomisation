@@ -83,11 +83,12 @@ jobs:
         uses: microsoft/setup-msbuild@v2
       - name: Installing additional packages
         run: vcpkg install
-      # - name: Installing CUDA
-      #   uses: Jimver/cuda-toolkit@v0.2.21
-      #   id: cuda-toolkit
-      #   with:
-      #     cuda: '11.7.0'
+      - name: Installing CUDA
+        uses: Jimver/cuda-toolkit@v0.2.21
+        id: cuda-toolkit
+        with:
+          cuda: '11.7.0'
+          non-cuda-sub-packages: '["libnvml"]'
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
@@ -100,6 +101,8 @@ jobs:
         run: sleep 5
       - name: Compile Ecofloc4Win
         run: msbuild /p:Configuration=Release .\ecofloc4win.sln
+      - name: wait 5 seconde connard
+        run: sleep 5
       - name: check the directory content
         run: dir -Recurse
   #     # - name: Upload build artifact to release
