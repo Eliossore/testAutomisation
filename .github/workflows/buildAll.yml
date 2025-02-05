@@ -98,6 +98,8 @@ jobs:
         run: msbuild /t:Restore .\ecofloc4win.sln
       - name: wait 5 seconde connard
         run: sleep 5
+      - name: Compile Ecofloc4Win
+        run: msbuild /p:Configuration=Release .\ecofloc4win.sln
       - name: check the directory content
         run: dir -Recurse
   #     # - name: Upload build artifact to release
