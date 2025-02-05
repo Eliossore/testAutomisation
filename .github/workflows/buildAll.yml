@@ -28,37 +28,48 @@ jobs:
   #             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
   
-  # build-vite-server:
+  build-vite-server:
   
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   needs: create-release
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    # needs: create-release
 
-  #   steps:
-  #   - name: Checkout Ecofloc
-  #     uses: actions/checkout@v4
-  #     with:
-  #       repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #   - name: Building vite-server
-  #     run: echo Now Building vite-server
-  #   - name: Install Node
-  #     uses: actions/setup-node@v4
-  #   - name: install pkg
-  #     run: npm install -g pkg
-  #   - name: build vite-server.exe
-  #     working-directory: ecofloc-UI
-  #     run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
-  #   - name: Upload build artifact to release
-  #     uses: actions/upload-release-asset@v1
-  #     env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     with:
-  #         upload_url: ${{ needs.create-release.outputs.upload_url }}
-  #         asset_path: ./vite-server.exe
-  #         asset_name: vite-server.exe
-  #         asset_content_type: application/exe
+    steps:
+    - name: Checkout Ecofloc
+      uses: actions/checkout@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Building vite-server
+      run: echo Now Building vite-server
+    - name: Install Node
+      uses: actions/setup-node@v4
+    - name: install pkg
+      run: npm install -g pkg
+    - name: build vite-server.exe
+      working-directory: ecofloc-UI
+      run: pkg start.js --targets node18-win-x64 --output ../vite-server.exe
+    - name: upload ui
+      uses: actions/upload-artifact@v4
+      with:
+        name: ui
+        path: Ecofloc-UI
+    - name: upload vite-server.exe
+      uses: actions/upload-artifact@v4
+      with:
+        name: vite-server
+        path: ./vite-server.exe
+    
+    # - name: Upload build artifact to release
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #       upload_url: ${{ needs.create-release.outputs.upload_url }}
+    #       asset_path: ./vite-server.exe
+    #       asset_name: vite-server.exe
+    #       asset_content_type: application/exe
           
   # build-ecofloc4win:
   #   runs-on: windows-latest
@@ -139,40 +150,40 @@ jobs:
   #     - name: check the directory content
   #       run: dir -Recurse
         
-  build-EcoflocConfigurator:
-    runs-on: windows-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    # needs: create-release
+  # build-EcoflocConfigurator:
+  #   runs-on: windows-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   # needs: create-release
 
-    steps:
-      - name: Checkout Ecofloc
-        uses: actions/checkout@v4
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.405'
-      - name: Installing msbuild
-        uses: microsoft/setup-msbuild@v2
-      - name: Config to use the correct .NET sdk
-        working-directory: EcoflocConfigurator
-        run: dotnet new globaljson --sdk-version 8.0.405
-      - name: Install dependencies
-        working-directory: EcoflocConfigurator
-        run: dotnet restore
-      # - name: Build
-      #   working-directory: EcoflocConfigurator
-      #   run: dotnet build
-      # - name: check the directory content
-      #   run: dir -Recurse
-      - name: Compile EcoflocConfigurator
-        working-directory: EcoflocConfigurator
-        run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
-      - name: check the directory content
-        run: dir -Recurse
+  #   steps:
+  #     - name: Checkout Ecofloc
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+  #     - name: Setup dotnet
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: '8.0.405'
+  #     - name: Installing msbuild
+  #       uses: microsoft/setup-msbuild@v2
+  #     - name: Config to use the correct .NET sdk
+  #       working-directory: EcoflocConfigurator
+  #       run: dotnet new globaljson --sdk-version 8.0.405
+  #     - name: Install dependencies
+  #       working-directory: EcoflocConfigurator
+  #       run: dotnet restore
+  #     # - name: Build
+  #     #   working-directory: EcoflocConfigurator
+  #     #   run: dotnet build
+  #     # - name: check the directory content
+  #     #   run: dir -Recurse
+  #     - name: Compile EcoflocConfigurator
+  #       working-directory: EcoflocConfigurator
+  #       run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
+  #     - name: check the directory content
+  #       run: dir -Recurse
     
   # build-wrapper:
   #   runs-on: windows-latest
@@ -222,7 +233,7 @@ jobs:
   #   permissions:
   #     contents: write
   #     pull-requests: write
-  #   needs: [build-PIDRecup, build-ecofloc4win, build-vite-server, build-EcoflocConfigurator]
+    # needs: [build-PIDRecup, build-ecofloc4win, build-vite-server, build-EcoflocConfigurator]
 
   #   steps:
   #     - name: Kek
