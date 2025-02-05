@@ -60,60 +60,60 @@ jobs:
   #         asset_name: vite-server.exe
   #         asset_content_type: application/exe
           
-  build-ecofloc4win:
-    runs-on: windows-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    # needs: create-release
+  # build-ecofloc4win:
+  #   runs-on: windows-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   # needs: create-release
     
-    steps:
-      - name: Checkout Ecofloc
-        uses: actions/checkout@v4
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Building Ecofloc4win
-        working-directory: ecofloc-UI
-        run: echo Now Building ecofloc4win
-      - name: Seting up cl, msbuild, vcpkg (txui) and cuda
-        run: echo "Setting everything up"
-      - name: Installing cl compiler
-        uses: ilammy/msvc-dev-cmd@v1.4.1
-      - name: Installing msbuild
-        uses: microsoft/setup-msbuild@v2
-      - name: Installing additional packages
-        run: vcpkg install
-      - name: Installing CUDA
-        uses: Jimver/cuda-toolkit@v0.2.21
-        id: cuda-toolkit
-        with:
-          cuda: '11.7.0'
-          non-cuda-sub-packages: '["libnvml"]'
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.405'
-      # - name: Moving vcpkg to ecofloc4win
-      #   run: cp -r .\vcpkg_installed\ .\ecofloc4win\
-      - name: Compile Ecofloc4Win
-        run: msbuild /t:Restore .\ecofloc4win.sln
-      - name: wait 5 seconde connard
-        run: sleep 5
-      - name: Compile Ecofloc4Win
-        run: msbuild /p:Configuration=Release .\ecofloc4win.sln
-      - name: wait 5 seconde connard
-        run: sleep 5
-      - name: check the directory content
-        run: dir -Recurse
-  #     # - name: Upload build artifact to release
-  #     #   uses: actions/upload-release-asset@v1
-  #     #   env:
-  #     #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     #   with:
-  #     #       upload_url: ${{ needs.create-release.outputs.upload_url }}
-  #     #       asset_path: ./ecofloc4win.exe
-  #     #       asset_name: ecofloc4win.exe
-  #     #       asset_content_type: application/exe
+  #   steps:
+  #     - name: Checkout Ecofloc
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+  #     - name: Building Ecofloc4win
+  #       working-directory: ecofloc-UI
+  #       run: echo Now Building ecofloc4win
+  #     - name: Seting up cl, msbuild, vcpkg (txui) and cuda
+  #       run: echo "Setting everything up"
+  #     - name: Installing cl compiler
+  #       uses: ilammy/msvc-dev-cmd@v1.4.1
+  #     - name: Installing msbuild
+  #       uses: microsoft/setup-msbuild@v2
+  #     - name: Installing additional packages
+  #       run: vcpkg install
+  #     - name: Installing CUDA
+  #       uses: Jimver/cuda-toolkit@v0.2.21
+  #       id: cuda-toolkit
+  #       with:
+  #         cuda: '11.7.0'
+  #         non-cuda-sub-packages: '["libnvml"]'
+  #     - name: Setup dotnet
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: '8.0.405'
+  #     # - name: Moving vcpkg to ecofloc4win
+  #     #   run: cp -r .\vcpkg_installed\ .\ecofloc4win\
+  #     - name: Compile Ecofloc4Win
+  #       run: msbuild /t:Restore .\ecofloc4win.sln
+  #     - name: wait 5 seconde connard
+  #       run: sleep 5
+  #     - name: Compile Ecofloc4Win
+  #       run: msbuild /p:Configuration=Release .\ecofloc4win.sln
+  #     - name: wait 5 seconde connard
+  #       run: sleep 5
+  #     - name: check the directory content
+  #       run: dir -Recurse
+  #     - name: Upload build artifact to release
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #           upload_url: ${{ needs.create-release.outputs.upload_url }}
+  #           asset_path: ./ecofloc4win.exe
+  #           asset_name: ecofloc4win.exe
+  #           asset_content_type: application/exe
   
   # build-PIDRecup:
   #   runs-on: windows-latest
@@ -139,43 +139,43 @@ jobs:
   #     - name: check the directory content
   #       run: dir -Recurse
         
-  # build-EcoflocConfigurator:
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   # needs: create-release
+  build-EcoflocConfigurator:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    # needs: create-release
 
-  #   steps:
-  #     - name: Checkout Ecofloc
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #     - name: Setup dotnet
-  #       uses: actions/setup-dotnet@v4
-  #       with:
-  #         dotnet-version: '8.0.403'
-  #     - name: Installing msbuild
-  #       uses: microsoft/setup-msbuild@v2
-  #     - name: Config to use the correct .NET sdk
-  #       working-directory: EcoflocConfigurator
-  #       run: dotnet new globaljson --sdk-version 8.0.403
-  #     - name: Install dependencies
-  #       working-directory: EcoflocConfigurator
-  #       run: dotnet restore
-  #     # - name: Build
-  #     #   working-directory: EcoflocConfigurator
-  #     #   run: dotnet build
-  #     # - name: check the directory content
-  #     #   run: dir -Recurse
-  #     - name: dotnet info
-  #       working-directory: EcoflocConfigurator
-  #       run: dotnet --info
-  #     - name: Compile EcoflocConfigurator
-  #       working-directory: EcoflocConfigurator
-  #       run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
-  #     - name: check the directory content
-  #       run: dir -Recurse
+    steps:
+      - name: Checkout Ecofloc
+        uses: actions/checkout@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.405'
+      - name: Installing msbuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Config to use the correct .NET sdk
+        working-directory: EcoflocConfigurator
+        run: dotnet new globaljson --sdk-version 8.0.405
+      - name: Install dependencies
+        working-directory: EcoflocConfigurator
+        run: dotnet restore
+      # - name: Build
+      #   working-directory: EcoflocConfigurator
+      #   run: dotnet build
+      # - name: check the directory content
+      #   run: dir -Recurse
+      - name: dotnet info
+        working-directory: EcoflocConfigurator
+        run: dotnet --info
+      - name: Compile EcoflocConfigurator
+        working-directory: EcoflocConfigurator
+        run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
+      - name: check the directory content
+        run: dir -Recurse
     
   # build-wrapper:
   #   runs-on: windows-latest
