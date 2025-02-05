@@ -114,34 +114,7 @@ jobs:
   #         name: ecofloc4win
   #         path: ./x64/Release
 
-  # build-PIDRecup:
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   # needs: create-release
-
-  #   steps:
-  #     - name: Checkout Ecofloc
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #     - name: Building PidRecup
-  #       run: echo Now Building ecofloc4win
-  #     - name: Installing cl compiler
-  #       uses: ilammy/msvc-dev-cmd@v1.4.1
-  #     - name: Installing msbuild
-  #       uses: microsoft/setup-msbuild@v2
-  #     - name: Compile PIDRecup
-  #       working-directory: PIDRecup/PIDRecup
-  #       run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
-  #     - name: upload PIDRecup
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: PIDRecup
-  #         path: ./PIDRecup/x64/Release
-        
-  build-EcoflocConfigurator:
+  build-PIDRecup:
     runs-on: windows-latest
     permissions:
       contents: write
@@ -153,31 +126,60 @@ jobs:
         uses: actions/checkout@v4
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.405'
+      - name: Building PidRecup
+        run: echo Now Building ecofloc4win
+      - name: Installing cl compiler
+        uses: ilammy/msvc-dev-cmd@v1.4.1
       - name: Installing msbuild
         uses: microsoft/setup-msbuild@v2
-      - name: Config to use the correct .NET sdk
-        working-directory: EcoflocConfigurator
-        run: dotnet new globaljson --sdk-version 8.0.405
-      - name: Install dependencies
-        working-directory: EcoflocConfigurator
-        run: dotnet restore
-      # - name: Build
-      #   working-directory: EcoflocConfigurator
-      #   run: dotnet build
-      # - name: check the directory content
-      #   run: dir -Recurse
-      - name: Compile EcoflocConfigurator
-        working-directory: EcoflocConfigurator
-        run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
-      - name: upload EcoflocConfigurator
-        uses: actions/upload-artifact@v4
-        with:
-          name: EcoflocConfigurator
-          path: ./EcoflocConfigurator/x64/Release
+      - name: Compile PIDRecup
+        working-directory: PIDRecup/PIDRecup
+        run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
+      - name: check directory content
+        run: dir -Recurse
+      # - name: upload PIDRecup
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: PIDRecup
+      #     path: ./PIDRecup/x64/Release
+        
+  # build-EcoflocConfigurator:
+  #   runs-on: windows-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   # needs: create-release
+
+  #   steps:
+  #     - name: Checkout Ecofloc
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
+  #     - name: Setup dotnet
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: '8.0.405'
+  #     - name: Installing msbuild
+  #       uses: microsoft/setup-msbuild@v2
+  #     - name: Config to use the correct .NET sdk
+  #       working-directory: EcoflocConfigurator
+  #       run: dotnet new globaljson --sdk-version 8.0.405
+  #     - name: Install dependencies
+  #       working-directory: EcoflocConfigurator
+  #       run: dotnet restore
+  #     # - name: Build
+  #     #   working-directory: EcoflocConfigurator
+  #     #   run: dotnet build
+  #     # - name: check the directory content
+  #     #   run: dir -Recurse
+  #     - name: Compile EcoflocConfigurator
+  #       working-directory: EcoflocConfigurator
+  #       run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
+  #     - name: upload EcoflocConfigurator
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: EcoflocConfigurator
+  #         path: ./EcoflocConfigurator/x64/Release
 
   # create-installer:
   #   runs-on: windows-latest
