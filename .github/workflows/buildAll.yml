@@ -114,32 +114,32 @@ jobs:
   #         name: ecofloc4win
   #         path: ./x64/Release
 
-  # build-PIDRecup:
-  #   runs-on: windows-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   # needs: create-release
+  build-PIDRecup:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    # needs: create-release
 
-  #   steps:
-  #     - name: Checkout Ecofloc
-  #       uses: actions/checkout@v4
-  #       with:
-  #         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-  #     - name: Building PidRecup
-  #       run: echo Now Building ecofloc4win
-  #     - name: Installing cl compiler
-  #       uses: ilammy/msvc-dev-cmd@v1.4.1
-  #     - name: Installing msbuild
-  #       uses: microsoft/setup-msbuild@v2
-  #     - name: Compile PIDRecup
-  #       working-directory: PIDRecup/PIDRecup
-  #       run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
-  #     - name: upload PIDRecup
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: PIDRecup
-  #         path: ./PIDRecup/PIDRecup/x64/Release/
+    steps:
+      - name: Checkout Ecofloc
+        uses: actions/checkout@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Building PidRecup
+        run: echo Now Building ecofloc4win
+      - name: Installing cl compiler
+        uses: ilammy/msvc-dev-cmd@v1.4.1
+      - name: Installing msbuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Compile PIDRecup
+        working-directory: PIDRecup/PIDRecup
+        run: msbuild /property:Configuration=Release .\PIDRecup.vcxproj
+      - name: upload PIDRecup
+        uses: actions/upload-artifact@v4
+        with:
+          name: PIDRecup
+          path: ./PIDRecup/PIDRecup/x64/Release
         
   build-EcoflocConfigurator:
     runs-on: windows-latest
@@ -173,13 +173,11 @@ jobs:
       - name: Compile EcoflocConfigurator
         working-directory: EcoflocConfigurator
         run: msbuild /property:Configuration=Release .\EcoflocConfigurator.csproj
-      - name: check the directory content
-        run: dir -Recurse
-      # - name: upload EcoflocConfigurator
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: EcoflocConfigurator
-      #     path: ./EcoflocConfigurator/x64/Release
+      - name: upload EcoflocConfigurator
+        uses: actions/upload-artifact@v4
+        with:
+          name: EcoflocConfigurator
+          path: ./EcoflocConfigurator/bin/Release/net8.0-windows
 
   # create-installer:
   #   runs-on: windows-latest
