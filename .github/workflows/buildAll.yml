@@ -174,19 +174,39 @@ jobs:
           name: EcoflocConfigurator
           path: ./EcoflocConfigurator/bin/Release/net8.0-windows
 
-  # create-release-files:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   needs: [build-PIDRecup, build-ecofloc4win, build-vite-server, build-EcoflocConfigurator, create-release]
+  create-release-files:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: [build-PIDRecup, build-ecofloc4win, build-vite-server, build-EcoflocConfigurator]
 
-  #   steps:
-  #     - name: Kek
-  #       run: echo "hello world"
-  #     - name: download UI
-  #     - name: download vite-server
-  #     - name: download ecofloc4win
-  #     - name: download PIDRecup
-  #     - name: download EcoflocConfigurator
+    steps:
+      - name: Kek
+        run: echo "hello world"
+      - name: create release dir
+        run: mkdir Release
+      - name: download UI
+        uses: actions/download-artifact@v4
+        with:
+          name: ui
+      - name: download vite-server
+        uses: actions/download-artifact@v4
+        with:
+          name: vite-server
+      - name: download ecofloc4win
+        uses: actions/download-artifact@v4
+        with:
+          name: ecofloc4win
+      - name: download PIDRecup
+        uses: actions/download-artifact@v4
+        with:
+          name: PIDRecup
+      - name: download EcoflocConfigurator
+        uses: actions/download-artifact@v4
+        with:
+          name: EcoflocConfigurator
+      - name: show directory
+        run: ls -la
+      
       
