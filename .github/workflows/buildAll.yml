@@ -188,7 +188,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    needs: [build-PIDRecup, build-ecofloc4win, build-vite-server-and-other, build-EcoflocConfigurator]
+    needs: [build-PIDRecup, build-ecofloc4win, build-vite-server-and-other, build-EcoflocConfigurator,create-release]
 
     steps:
       - name: Kek
