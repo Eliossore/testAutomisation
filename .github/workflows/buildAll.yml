@@ -242,7 +242,7 @@ jobs:
           name: PIDRecup
 
       - name: create the true Release
-        run: mkdir wowRelease && cd wowRelease && mkdir ecofloc-UI && cp -r ../Release/ecofloc-UI/* ./ecofloc-UI/ && cp ../Release/vite-server.exe ./ && cp -r ../Release/ecofloc-Win/* ./
+        run: mkdir Ecofloc && cd Ecofloc && mkdir ecofloc-UI && cp -r ../Release/ecofloc-UI/* ./ecofloc-UI/ && cp ../Release/vite-server.exe ./ && cp -r ../Release/ecofloc-Win/* ./
           
       - name: show directory
         run: ls -Rla
@@ -278,5 +278,38 @@ jobs:
             asset_path: ./Release.zip
             asset_name: Release.zip
             asset_content_type: application/zip
+
+  build-installer:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: create-release
+
+    steps:
+      - name: download InstallerScript
+        uses: actions/download-artifact@v4
+        with:
+          name: InstallerScript
+      - name: download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: installer
+      - name: check directory
+        run: dir -Recurse
+      - name: Compile .ISS to .EXE Installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: ./InstallerScript.iss
+      - name: Upload Release
+        uses: actions/upload-release-asset@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            upload_url: ${{ needs.create-release.outputs.upload_url }}
+            asset_path: ./ecofloc-installer.exe
+            asset_name: ecofloc-installer.exe
+            asset_content_type: application/exe
+
       
       
