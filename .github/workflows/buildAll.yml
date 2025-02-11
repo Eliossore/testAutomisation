@@ -119,6 +119,7 @@ jobs:
         with:
           cuda: '11.7.0'
           method: 'network'
+          sub-packages: '["libnvml"]'
           non-cuda-sub-packages: '["libnvml"]'
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
