@@ -284,7 +284,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    needs: create-release
+    needs: [create-release, create-release-files]
 
     steps:
       - name: download InstallerScript
