@@ -313,6 +313,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: README
+      - name: create images directory
+        run: mkdir images
+      - name: download README
+        uses: actions/download-artifact@v4
+        with:
+          path: ./images/
+          name: images
       - name: check directory
         run: dir -Recurse
       - name: Compile .ISS to .EXE Installer
