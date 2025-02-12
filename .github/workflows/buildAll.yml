@@ -7,7 +7,11 @@
 
 name: Build all
 run-name: ${{ github.actor }} is building all apps
-on: push
+on:
+  push:
+    branches:
+      - release
+
 
 jobs:
   create-release:
